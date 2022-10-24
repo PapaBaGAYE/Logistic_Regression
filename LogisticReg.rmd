@@ -1,0 +1,73 @@
+---
+title: "LogisticReg"
+author: "Papa Ba GAYE"
+date: '2022-10-24'
+output: html_document
+---
+
+```{r }
+library("MASS")
+library("randomForest")
+library("VSURF")
+
+library(FactoMineR)
+library(factoextra)
+library("corrplot")
+```
+
+
+```{r}
+train = read.csv("P12-Churn-Modelling.csv", sep=",")
+test = read.csv("P12-Churn-Modelling-Test-Data.csv", sep=",")
+train
+```
+
+
+```{r}
+test = subset(test, select=-c(RowNumber, CustomerId, Surname))
+train = subset(train, select=-c(RowNumber, CustomerId, Surname))
+
+train$Geography = factor(train$Geography, levels = c('France','Spain', 'Germany'), labels = c(0.0, 1.0 , 2.0))
+test$Geography = factor(test$Geography, levels = c('France','Spain', 'Germany'), labels = c(0.0, 1.0 , 2.0 ))
+train$Gender = factor(train$Gender,  levels = c('Female','Male'), labels = c(0.0, 1.0))
+test$Gender = factor(test$Gender,  levels = c('Female','Male'), labels = c(0.0, 1.0))
+```
+
+```{r}
+X_train = train[,-11] # Variablees explicatives
+y_train = train$Exited # Variable a expliquer
+
+X_test = test[,-11] # Variablees explicatives
+y_test = test$Exited # Variable a expliquer
+```
+
+```{r}
+train
+```
+```{r}
+model0 = lm(Exited ~ CreditScore + Geography + Gender + Age + Tenure + Balance + NumOfProducts + HasCrCard + IsActiveMember + EstimatedSalary, data = train)
+summary(model0)
+```
+
+```{r}
+model1 = lm(Exited ~ CreditScore + Geography + Gender + Age + Tenure + Balance + NumOfProducts + IsActiveMember + EstimatedSalary, data = train)
+summary(model1)
+```
+
+
+```{r}
+model1 = lm(Exited ~ CreditScore + Geography + Gender + Age + Tenure + Balance + NumOfProducts + IsActiveMember, data = train)
+summary(model1)
+```
+
+
+```{r}
+
+```
+```{r}
+```
+
+```{r}
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
